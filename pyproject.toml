@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "standalone-vrm-viewer"
+version = "0.1.0"
+description = "Standalone VRM viewer with Kokoro TTS, audio-driven lip sync, emotions, and idle animation"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.110,<1",
+  "numpy>=1.26,<3",
+  "uvicorn[standard]>=0.27,<1",
+]
+
+[project.optional-dependencies]
+kokoro = ["kokoro>=0.9,<1"]
+desktop = ["pywebview>=5,<7", "qtpy>=2.4,<3", "PyQt6>=6.7,<7", "PyQt6-WebEngine>=6.7,<7"]
+test = ["httpx>=0.27,<1", "pytest>=8,<9"]
+all = ["kokoro>=0.9,<1", "pywebview>=5,<7", "qtpy>=2.4,<3", "PyQt6>=6.7,<7", "PyQt6-WebEngine>=6.7,<7"]
+
+[project.scripts]
+vrm-viewer = "vrm_viewer.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["vrm_viewer*"]
+
+[tool.setuptools]
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+
+[tool.setuptools.package-data]
+vrm_viewer = ["web/**/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
